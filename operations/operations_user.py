@@ -1,7 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy.future import select
-import Usuarios
+from models import Usuarios
 import csv
 import os
 

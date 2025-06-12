@@ -1,7 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy.future import select
-import Vuelo
+from models import Vuelo
 import csv
 import os
 
@@ -72,7 +71,10 @@ async def find_vuelo_destino(db: AsyncSession, Destino: str):
     result = await db.execute(select(Vuelo))
     vuelos = result.scalars().all()
     for vuelo in vuelos:
-        if vuelo.nombre.strip().lower() == Destino.lower():
+        if vuelo.nombre.strip().lower() == destino.lower():
             return vuelo
     return None
+
+async def compra_vuelo(db:AsyncSession, Compra: bool):
+    compra:Compra.strip()
 

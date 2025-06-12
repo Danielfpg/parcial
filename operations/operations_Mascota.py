@@ -1,7 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy.future import select
-import Mascotas
+from models import Mascotas
 import csv
 import os
 
@@ -63,7 +62,7 @@ async def find_mascota_id(db: AsyncSession, ID: int):
             return mascota
     return None
 
-async def modificar_carta_mascta(db: AsyncSession, ID: int, datos_actualizados: dict):
+async def modificar_carta_mascota(db: AsyncSession, ID: int, datos_actualizados: dict):
     mascota = await find_mascota_id(db, ID)
     if not mascota:
         return None
