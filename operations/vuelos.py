@@ -75,3 +75,4 @@ async def find_vuelo_destino(db: AsyncSession, Destino: str):
         if vuelo.nombre.strip().lower() == Destino.lower():
             return vuelo
     return None
+
