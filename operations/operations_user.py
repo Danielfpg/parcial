@@ -61,7 +61,7 @@ async def find_user_doc(db: AsyncSession, docum: int):
             return usuario
     return None
 
-async def modificar_carta_energia(db: AsyncSession, docum: int, datos_actualizados: dict):
+async def modificar_carta_User(db: AsyncSession, docum: int, datos_actualizados: dict):
     usuario = await find_user_doc(db, docum)
     if not usuario:
         return None

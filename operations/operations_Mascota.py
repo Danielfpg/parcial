@@ -23,15 +23,16 @@ async def regenerar_csv(db: AsyncSession):
         for mascota in mascotas:
             writer.writerow({
                 "id": mascota.id,
-                "Documento": mascota.documento,
                 "nombre": mascota.nombre,
-                "mascota":mascota.mascota
+                "dueño": mascota.duenio,
+                "tipo": mascota.tipo,
+                "raza":mascota.raza
             })
 
 
 
 
-async def Create_usuario(db: AsyncSession, mascotas: Mascotas):
+async def Create_mascota(db: AsyncSession, mascotas: Mascotas):
     mascota = Mascotas(**mascotas.dict())
     db.add(mascota )
     await db.commit()
@@ -44,41 +45,42 @@ async def Create_usuario(db: AsyncSession, mascotas: Mascotas):
             writer.writeheader()
         writer.writerow({
             "id": mascota.id,
-            "Documento": mascota.documento,
             "nombre": mascota.nombre,
-            "mascota": mascota.mascota
+            "dueño": mascota.duenio,
+            "tipo": mascota.tipo,
+            "raza": mascota.raza
         })
 
     return mascota
 
 
-async def find_user_doc(db: AsyncSession, ID: int):
+async def find_mascota_id(db: AsyncSession, ID: int):
     id = ID.strip()
     result = await db.execute(select(Mascotas))
     mascotas = result.scalars().all()
     for mascota in mascotas:
-        if mascota.nombre.strip().lower() == ID.lower():
-            return usuario
+        if mascota.nombre.strip().lower() ==id.lower():
+            return mascota
     return None
 
-async def modificar_carta_energia(db: AsyncSession, docum: int, datos_actualizados: dict):
-    usuario = await find_user_doc(db, docum)
-    if not usuario:
+async def modificar_carta_mascta(db: AsyncSession, ID: int, datos_actualizados: dict):
+    mascota = await find_mascota_id(db, ID)
+    if not mascota:
         return None
 
     for key, value in datos_actualizados.items():
-        if hasattr(usuario, key) and key != "id":
-            setattr(usuario, key, value)
+        if hasattr(mascota, key) and key != "id":
+            setattr(mascota, key, value)
 
     await db.commit()
-    await db.refresh(usuario)
-    return usuario
+    await db.refresh(mascota)
+    return mascota
 
-async def kill_user(db: AsyncSession, docum=int):
-    user = await find_user_doc(db, docum)
-    if not user:
+async def kill_user(db: AsyncSession, ID: int):
+    mascota = await find_mascota_id(db, ID)
+    if not mascota:
         return None
-    await db.delete(user)
+    await db.delete(mascota)
     await db.commit()
 
-    return "delte to:",user
+    return "delte to:", mascota
